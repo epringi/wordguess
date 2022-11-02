@@ -1,41 +1,59 @@
 #!/usr/bin/env python3
 
-import random, getch
+import random, getch, signal, sys
 
+# sigint is ok
+def signal_handler(sig, frame):
+  sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
+
+# load words
 f=open("words", 'r')
 words=f.readlines()
 words = [item.strip() for item in words]
 
 print()
-print("Choose a difficulty from 1 to 3, 3 being the hardest:")
+
+# choose difficulty
+print("Choose a difficulty from 1 to 4, 4 being the hardest:")
 diff=getch.getch()
-while not diff.isnumeric() or int(diff) not in range(1,4):
-  print("Choose a difficulty from 1 to 3, 3 being the hardest:")
+while not diff.isnumeric() or int(diff) not in range(1,5):
+  print("Choose a difficulty from 1 to 4, 4 being the hardest:")
   diff=getch.getch()
 
-if int(diff)==2:
-  words=list(filter(lambda item: len(item) > 4, words))
-
-if int(diff)==3:
-  words=list(filter(lambda item: len(item) > 5, words))
-
+# difficulty settings: less letter hints for greater difficulty
 if int(diff)==1:
   words=list(filter(lambda item: len(item) < 8, words))
+  word=random.choice(words)
+  missing=random.choices(word, k=int(len(word)/2))
 
-word=random.choice(words)
+elif int(diff)==2:
+  words=list(filter(lambda item: len(item) > 4, words))
+  word=random.choice(words)
+  missing=random.choices(word, k=int(int(len(word)/2)+int(len(word)/2)/3))
 
-missing=random.choices(word, k=int(len(word)/2))
-missing=list(set(missing))
-
-if len(missing)<len(word)/2 and int(diff)==3:
+elif int(diff)==3:
+  words=list(filter(lambda item: len(item) > 5, words))
+  word=random.choice(words)
   missing=random.choices(word, k=int(int(len(word)/2)+int(len(word)/2)/2))
-  missing=list(set(missing))
-  if len(missing)<len(word)/2 and int(diff)==3:
-    missing=random.choices(word, k=int(int(len(word)/2)+1))
-    missing=list(set(missing))
+
+elif int(diff)==4:
+  word=random.choice(words)
+  missing=word
+
+missing=list(set(missing))
 
 oword=word
 word=list(word)
+
+maxguesses=int(len(oword)/2)-int(diff)+2
+if int(diff)==4:
+  maxguesses=int("{mg}".format(mg=4 if int(len(oword)/3)+2 < 4 else int(len(oword)/3)+2))
+if maxguesses<2:
+  maxguesses=2
+elif maxguesses>6:
+  maxguesses=6
 
 nword="_".ljust(len(word), "_")
 nword=list(nword)
@@ -49,11 +67,6 @@ thing=0
 guess=""
 guesses=0
 guessed=""
-maxguesses=int(len(oword)/2)-int(diff)+2
-if maxguesses<2:
-  maxguesses=2
-elif maxguesses>6:
-  maxguesses=6
 while guesses<maxguesses and ''.join(word)!=oword:
   print()
   print("-".ljust(20, "-"))
