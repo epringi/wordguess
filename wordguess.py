@@ -13,13 +13,13 @@ while not diff.isnumeric() or int(diff) not in range(1,4):
   print("Choose a difficulty from 1 to 3, 3 being the hardest:")
   diff=getch.getch()
 
-if int(diff)>1:
-  words=list(filter(lambda item: len(item) > 3, words))
-
-if int(diff)>2:
+if int(diff)==2:
   words=list(filter(lambda item: len(item) > 4, words))
 
-if int(diff)<2:
+if int(diff)==3:
+  words=list(filter(lambda item: len(item) > 5, words))
+
+if int(diff)==1:
   words=list(filter(lambda item: len(item) < 8, words))
 
 word=random.choice(words)
