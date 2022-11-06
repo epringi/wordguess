@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import random, getch, signal, sys
+import random, getch, signal, sys, os
 
 # sigint is ok
 def signal_handler(sig, frame):
@@ -9,7 +9,8 @@ def signal_handler(sig, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 # load words
-f=open("words", 'r')
+wd=os.path.dirname(os.path.realpath(__file__))
+f=open(wd+"/words", 'r')
 words=f.readlines()
 words = [item.strip() for item in words]
 
@@ -51,6 +52,7 @@ maxguesses=int(len(oword)/2)-int(diff)+2
 if int(diff)==4:
   maxguesses=int("{mg}".format(mg=5 if int(len(oword)/3)+2 < 5 else int(len(oword)/3)+int(len(oword)/3)))
   #maxguesses=int("{mg}".format(mg=6 if int(len(oword)/3)+2 < 4 else 4+int(len(oword)/3)))
+  maxguesses=6
 elif maxguesses<2:
   maxguesses=2
 elif maxguesses>6:
