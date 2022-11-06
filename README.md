@@ -1,4 +1,5 @@
 Requires Python 3.7 or >
+Requires module getch: pip install getch
 
 To run: python wordguess.py
 
