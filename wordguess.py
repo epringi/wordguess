@@ -104,10 +104,8 @@ while guesses<maxguesses and ''.join(word)!=oword:
 print()
 
 if guesses < maxguesses:
-  print("".join(["It was ", oword, ", you got it!"]))
+  print("".join(["*** It was ", oword, ", you got it!! ***"]))
 else:
-  print("Nice try!")
-  print()
-  print("It was", oword)
+  print("Nice try, it was", oword)
 
 print()
