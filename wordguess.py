@@ -49,8 +49,9 @@ word=list(word)
 
 maxguesses=int(len(oword)/2)-int(diff)+2
 if int(diff)==4:
-  maxguesses=int("{mg}".format(mg=4 if int(len(oword)/3)+2 < 4 else int(len(oword)/3)+2))
-if maxguesses<2:
+  maxguesses=int("{mg}".format(mg=5 if int(len(oword)/3)+2 < 5 else int(len(oword)/3)+int(len(oword)/3)))
+  #maxguesses=int("{mg}".format(mg=6 if int(len(oword)/3)+2 < 4 else 4+int(len(oword)/3)))
+elif maxguesses<2:
   maxguesses=2
 elif maxguesses>6:
   maxguesses=6
@@ -82,9 +83,6 @@ while guesses<maxguesses and ''.join(word)!=oword:
   guess=guess.upper()
   print(guess)
   print()
-
-  #print()
-  #print(' '.join(nword))
 
   if guess in missing:
     for idx, letter in enumerate(nword):
